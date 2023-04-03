@@ -20,7 +20,7 @@ function productRender(data) {
                   <p class="card-text">${product.description}</p>
                   <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                      <button id="order" product="${product.id}" type="button" class="btn btn-sm btn-outline-secondary order-btn">Order</button>
+                      <button id="order" product="${product.id}" type="button" class="btn btn-sm btn-outline-secondary order-btn">Add to cart</button>
                     </div>
                     <div>$ ${product.price} </div>
                   </div>
@@ -32,18 +32,9 @@ function productRender(data) {
 
   document.getElementById("productPage").innerHTML = output;
 
-  const viewButtons = Array.from(document.querySelectorAll('.view-btn'));
-  const orderButtons = Array.from(document.querySelectorAll('.order-btn'));
+  const cartButtons = Array.from(document.querySelectorAll('.order-btn'));
 
-  viewButtons.forEach(button => {
-    button.addEventListener('click', function () {
-      productDetailsRender(this.getAttribute('product'));
-      open('product-details.html', '_self');
-
-    });
-  });
-
-  orderButtons.forEach(button => {
+  cartButtons.forEach(button => {
     button.addEventListener('click', function () {
       console.log(button)
 
@@ -57,8 +48,9 @@ function productRender(data) {
 }
 
 function saveProduct(data) {
-  console.log(data);
-  localStorage.setItem('product', JSON.stringify(data));
+  let products = JSON.parse(localStorage.getItem('products')) || []; 
+  products.push(data); 
+  localStorage.setItem('products', JSON.stringify(products));
   console.log(localStorage);
-  open('order.html', '_self');
+  //open('cart.html', '_self');
 }
