@@ -1,9 +1,43 @@
 orderDetailsRender();
 
+function orderDetailsRender(){ 
+let products = JSON.parse(localStorage.getItem('products')) || [];
+    let output = "";
+    let totalPrice = 0;
+
+        products.forEach(product => {
+            output += `
+          <div class="col">
+            <div class="card shadow-sm">
+              <img class="card-img-products" src="${product.image}" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false">
+              <title>Placeholder</title><br>
+              <p class="center-align"> ${product.title}</p>
+  
+              <div class="card-body">
+                Quantity:
+                <input id="quantity" product="${product.id}" type="number" class="form-control text-center" value="${product.quantity}">
+                </div>
+              
+              <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center">
+                  <div class="btn-group">
+                    <button data-product-id="${product.id}" type="button" class="btn btn-outline-danger delete-btn">Delete</button>
+                  </div>
+                  <div>$ ${product.price} </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+            totalPrice += Number(product.price);
+        });
+        document.getElementById("totalPrice").innerHTML = "Total price: $" + totalPrice;
+    } 
+
+
 function orderDetailsRender() {
-    const product = JSON.parse(localStorage.getItem('product'));
+    const products = JSON.parse(localStorage.getItem('products'));
     let output = `
-          <h3>Thank you for your order!</h3><br>
                   <div class="card row-col-4 center-align col-md-4">
                       <h3 class="card-header">Product details</h3>
   

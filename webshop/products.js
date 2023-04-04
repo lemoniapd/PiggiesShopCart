@@ -36,13 +36,13 @@ function productRender(data) {
 
   cartButtons.forEach(button => {
     button.addEventListener('click', function () {
-      console.log(button)
 
       fetch(urlAPI + this.getAttribute('product'))
         .then(res => res.json())
         .then(json => saveProduct(json))
         .catch(err => console.error(err));
 
+        alert("Product added to cart!")
     });
   });
 }
@@ -50,7 +50,6 @@ function productRender(data) {
 function saveProduct(data) {
   let products = JSON.parse(localStorage.getItem('products')) || []; 
   products.push(data); 
+  products.forEach(product=> {product.quantity=1});
   localStorage.setItem('products', JSON.stringify(products));
-  console.log(localStorage);
-  //open('cart.html', '_self');
 }
