@@ -1,10 +1,9 @@
 function cartRender() {
     let products = JSON.parse(localStorage.getItem('products')) || [];
+    let totalPrice = products.reduce((sum, product) => sum + product.price * product.quantity,0).toFixed(2);
     let output = "";
-    let totalPrice = 0;
 
     if (products.length > 0) {
-        console.log(products);
         products.forEach(product => {
             output += `
           <div class="col">
@@ -15,7 +14,7 @@ function cartRender() {
   
               <div class="card-body">
                 Quantity:
-                <input id="quantity" product="${product.id}" type="number" class="form-control text-center" value="${product.quantity}">
+                <input id="quantity-${product.id}" data-product-id="${product.id}" type="number" class="form-control text-center" value="${product.quantity}">
                 </div>
               
               <div class="card-body">
@@ -24,22 +23,21 @@ function cartRender() {
                     <button data-product-id="${product.id}" type="button" class="btn btn-outline-danger delete-btn">Delete</button>
                   </div>
                   <div>$ ${product.price} </div>
+                  <div>Total $ ${product.price * product.quantity} </div>
                 </div>
               </div>
             </div>
           </div>
         `;
-
-            totalPrice += Number(product.price);
         });
     } else {
         output = "Your cart is empty";
     }
 
     document.getElementById("cartHTML").innerHTML = output;
-    document.getElementById("totalPrice").innerHTML = "Total price: $ " + totalPrice;
+    document.getElementById("totalPrice").innerHTML = "Total amount: $ " + totalPrice;
 
-    const deleteButtons = document.querySelectorAll('.delete-btn');
+    const deleteButtons = Array.from(document.querySelectorAll('.delete-btn'));
 
     if (deleteButtons.length > 0) {
         deleteButtons.forEach(button => {
@@ -52,10 +50,23 @@ function cartRender() {
                 cartRender();
             });
         });
-        document.getElementById("quantity").addEventListener("change", function(){
-            //skriv kod för ändring
-            //se till att koden även uppdaterar localStorage med antal
-        })
+
+        document.querySelectorAll('.card-body input[type="number"]').forEach(input => {
+            input.addEventListener("change", function(event) {
+                const productId = event.target.getAttribute('data-product-id');
+                const quantity = parseInt(event.target.value);
+                let products = JSON.parse(localStorage.getItem('products')) || [];
+        
+                const productToUpdate = products.find(product => product.id === parseInt(productId));
+                if (productToUpdate) {
+                    productToUpdate.quantity = quantity;
+                    localStorage.setItem('products', JSON.stringify(products));
+                    cartRender();
+                }
+            });
+        });
+        
+          
     }
 }
 

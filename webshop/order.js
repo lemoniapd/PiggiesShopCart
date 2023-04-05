@@ -74,8 +74,6 @@ function validateCity() {
   }
 }
 
-
-
 function setElementsToGreen(value) {
   document.getElementById(value).className = document.getElementById(value).className.replace(" error", "");
   document.getElementById(value).className = document.getElementById(value).className.replace(" lucky", "");
@@ -96,7 +94,6 @@ function validateForm() {
     document.getElementById('zip').className.includes('lucky') &&
     document.getElementById('city').className.includes('lucky')) {
     open('order-details.html', '_self');
-    //document.getElementById('submitAddress').className = document.getElementById('submitAddress').classname.replace("disabled", "")
   } else {
     alert("Please fill in all fields correctly! ");
   }

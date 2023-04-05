@@ -42,14 +42,32 @@ function productRender(data) {
         .then(json => saveProduct(json))
         .catch(err => console.error(err));
 
-        alert("Product added to cart!")
+      alert("Product added to cart!")
     });
   });
 }
 
+function productExists(data) {
+  let products = JSON.parse(localStorage.getItem('products')) || [];
+  products = products.filter(product => product.id == data.id);
+  if (products.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
 function saveProduct(data) {
-  let products = JSON.parse(localStorage.getItem('products')) || []; 
-  products.push(data); 
-  products.forEach(product=> {product.quantity=1});
+  let products = JSON.parse(localStorage.getItem('products')) || [];
+  if (productExists(data)) {
+    products.forEach(product => {
+      if (product.id == data.id) {
+        product.quantity++;
+      }
+    });
+  } else {
+    data.quantity = 1;
+    products.push(data);
+  }
   localStorage.setItem('products', JSON.stringify(products));
 }
