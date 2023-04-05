@@ -26,6 +26,6 @@ function orderDetailsRender() {
     });
 
     document.getElementById("order-info").innerHTML = output;
-    document.getElementById("totalPrice").innerHTML = "Total order amount: $" + totalPrice;
+    document.getElementById("totalPrice").innerHTML = "Total order amount: $ " + totalPrice;
     localStorage.clear();
 }
