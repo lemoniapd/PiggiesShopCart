@@ -69,7 +69,7 @@ function cartRender() {
 }
 
 document.getElementById("continueBtn").addEventListener('click', function () {
-    if (localStorage !== null){
+    if (localStorage.length > 0){
         open("order.html", "_self");
     } else{
         alert("Cart is empty!");
