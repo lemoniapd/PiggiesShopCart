@@ -64,9 +64,7 @@ function cartRender() {
                     cartRender();
                 }
             });
-        });
-        
-          
+        });        
     }
 }
 
